@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "T.h"
-float dsaw = 0.f;
+float dsaw = 0.f, dy2 = 0.f;
 float x = 0.f, y = 0.f, zx1 = 1, zy1 = 1 ;
 static void error_callback(int error, const char* description)
 {
@@ -16,6 +16,10 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
         dsaw += 0.08f;
     if (key == GLFW_KEY_Q)
         dsaw -= 0.08f;
+    if (key == GLFW_KEY_Z)
+        dy2 += 0.08f;
+    if (key == GLFW_KEY_X)
+        dy2 -= 0.08f;
     if (key == GLFW_KEY_D)
         x += 0.05f;
     if (key == GLFW_KEY_W)
@@ -70,18 +74,43 @@ void T::draw()
         glMatrixMode(GL_MODELVIEW);
         glLoadIdentity();
         glScalef(zx1, zy1, 0);
-        glRotatef(dsaw * 50.f, 0.f, 0.f, 1.f);
+        glRotatef(dsaw * 50.f,0.f, dy2 * 1.f, 1.f);
         glTranslatef(x, y, 0);
-        glBegin(GL_TRIANGLES);
-        glColor3f(1.f, 0.f, 0.f);
-        glVertex3f(-0.6f, -0.4f, 0.f);
-        glColor3f(0.f, 1.f, 0.f);
-        glVertex3f(0.6f, -0.4f, 0.f);
-        glColor3f(0.f, 0.f, 1.f);
-        glVertex3f(0.f, 0.6f, 0.f);
+        glBegin(GL_TRIANGLES);           // Begin drawing the pyramid with 4 triangles
+      // Front
+        glColor3f(1.0f, 0.0f, 0.0f);     // Red
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);     // Green
+        glVertex3f(-1.0f, -1.0f, 1.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+        glVertex3f(1.0f, -1.0f, 1.0f);
+
+        // Right
+        glColor3f(1.0f, 0.0f, 0.0f);     // Red
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+        glVertex3f(1.0f, -1.0f, 1.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);     // Green
+        glVertex3f(1.0f, -1.0f, -1.0f);
+
+        // Back
+        glColor3f(1.0f, 0.0f, 0.0f);     // Red
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);     // Green
+        glVertex3f(1.0f, -1.0f, -1.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);     // Blue
+        glVertex3f(-1.0f, -1.0f, -1.0f);
+
+        // Left
+        glColor3f(1.0f, 0.0f, 0.0f);       // Red
+        glVertex3f(0.0f, 1.0f, 0.0f);
+        glColor3f(0.0f, 0.0f, 1.0f);       // Blue
+        glVertex3f(-1.0f, -1.0f, -1.0f);
+        glColor3f(0.0f, 1.0f, 0.0f);       // Green
+        glVertex3f(-1.0f, -1.0f, 1.0f);
         glEnd();
         glfwSwapBuffers(window);
-        glfwPollEvents();
+         glfwPollEvents();
     }
     glfwDestroyWindow(window);
     glfwTerminate();
