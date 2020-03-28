@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+float dsa;
+
 static void error_callback(int error, const char* description)
 {
     fputs(description, stderr);
@@ -10,6 +12,8 @@ static void key_callback(GLFWwindow* window, int key, int scancode, int action, 
 {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
         glfwSetWindowShouldClose(window, GL_TRUE);
+    if (key == GLFW_KEY_D)
+        dsa += 1.0;
 }
 
 class triangle {
@@ -49,7 +53,7 @@ public:
             glOrtho(-ratio, ratio, -1.f, 1.f, 1.f, -1.f);
             glMatrixMode(GL_MODELVIEW);
             glLoadIdentity();
-            glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
+            glRotatef(dsa * 50.f, 0.f, 0.f, 1.f);//glRotatef((float)glfwGetTime() * 50.f, 0.f, 0.f, 1.f);
             glBegin(GL_TRIANGLES);
             glColor3f(1.f, 0.f, 0.f);
             glVertex3f(-0.6f, -0.4f, 0.f);
